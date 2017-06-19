@@ -419,7 +419,78 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
-    }
+    },
+    // replace config
+    replace: {
+            development: {
+                options: {
+                    patterns: [
+                        {
+                            json: grunt.file.readJSON('./config/environments/development.json')
+                        }
+                    ]
+                },
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['./config/config.js'],
+                        dest: '<%= yeoman.app %>/scripts/services/'
+                    }
+                ]
+            },
+            qa: {
+                options: {
+                    patterns: [
+                        {
+                            json: grunt.file.readJSON('./config/environments/qa.json')
+                        }
+                    ]
+                },
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['./config/config.js'],
+                        dest: '<%= yeoman.app %>/scripts/services/'
+                    }
+                ]
+            },
+            staging: {
+                options: {
+                    patterns: [
+                        {
+                            json: grunt.file.readJSON('./config/environments/staging.json')
+                        }
+                    ]
+                },
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['./config/config.js'],
+                        dest: '<%= yeoman.app %>/scripts/services/'
+                    }
+                ]
+            },
+            production: {
+                options: {
+                    patterns: [
+                        {
+                            json: grunt.file.readJSON('./config/environments/production.json')
+                        }
+                    ]
+                },
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['./config/config.js'],
+                        dest: '<%= yeoman.app %>/scripts/services/'
+                    }
+                ]
+            }
+        }
   });
 
 
@@ -429,15 +500,64 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
+      'replace:development',
+      //other command
       'clean:server',
       'wiredep',
       'concurrent:server',
       'autoprefixer:server',
-      'connect:livereload',
+      'connect:livereload',      
       'watch'
     ]);
   });
+  grunt.registerTask('production', 'Compile then start a connect web server production', function (target) {
+    if (target === 'dist') {
+      return grunt.task.run(['build', 'connect:dist:keepalive']);
+    }
 
+    grunt.task.run([
+      'replace:production',
+      //other command
+      'clean:server',
+      'wiredep',
+      'concurrent:server',
+      'autoprefixer:server',
+      'connect:livereload',      
+      'watch'
+    ]);
+  });
+  grunt.registerTask('staging', 'Compile then start a connect web server staging', function (target) {
+    if (target === 'dist') {
+      return grunt.task.run(['build', 'connect:dist:keepalive']);
+    }
+
+    grunt.task.run([
+      'replace:staging',
+      //other command
+      'clean:server',
+      'wiredep',
+      'concurrent:server',
+      'autoprefixer:server',
+      'connect:livereload',      
+      'watch'
+    ]);
+  });
+  grunt.registerTask('qa', 'Compile then start a connect web server qa', function (target) {
+    if (target === 'dist') {
+      return grunt.task.run(['build', 'connect:dist:keepalive']);
+    }
+
+    grunt.task.run([
+      'replace:qa',
+      //other command
+      'clean:server',
+      'wiredep',
+      'concurrent:server',
+      'autoprefixer:server',
+      'connect:livereload',      
+      'watch'
+    ]);
+  });
   grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target) {
     grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
     grunt.task.run(['serve:' + target]);

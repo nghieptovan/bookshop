@@ -1,0 +1,7 @@
+{
+    "BASE_URL": "http://orgitapp.com/#/",
+    
+    "GAPI_NAME": "orgit",
+    "GAPI_VERSION": "v1",
+    "GAPI_URL": "https://2-dot-august-sandbox-93510.appspot.com/_ah/api"
+}

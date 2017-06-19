@@ -1,0 +1,7 @@
+{
+    "BASE_URL": "http://staging.orgitapp.com/#/",
+    
+    "GAPI_NAME": "orgit",
+    "GAPI_VERSION": "v1",
+    "GAPI_URL": "https://2-dot-silicon-synapse-764.appspot.com/_ah/api"
+}
